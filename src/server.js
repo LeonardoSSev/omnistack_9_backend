@@ -24,7 +24,14 @@ io.on('connection', socket => {
 mongoose.connect(stringConnection,{
     useNewUrlParser: true,
     useUnifiedTopology: true
-})
+});
+
+app.use((req, res, next) => {
+  req.io = io;
+  req.connectedUsers = connectedUsers;
+
+  return next();
+});
 
 app.use(cors());
 app.use(express.json());
